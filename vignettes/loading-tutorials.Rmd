@@ -1,0 +1,86 @@
+---
+title: "Using tutorial"
+author: "Nathan L. Brouwer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The abdcompanion package contains interactive tutorials for key examples from Whitlock and Schluter's texbook *Analysis of Biological Data*.  There are two general groups of tutorials
+
+1. Interactive web-based tutorials 
+1. Text-based tutorials
+
+The latter, text-based tutorials are what you will find in most books teaching R or other software.  They provide step by step written instructions that you can work through by typing commands in to R.  To use these tutorials you will have to have a basic familiarity with R, and have to figure out how to trouble shoot anything that comes up.  The rest of the "vignettes" of the package are these conventinal R tutorials.
+
+The interactive tutorials are much more dynamic, and require almost no knowledge of R.  After loading the desired tutorial in R, your web browser will open up an interative screen.  All data will be shown in tables and you will be lead through any computations or R code that needs to be written.
+
+These interactive tutorials are further divided into two gorups
+
+* Spreadsheet oriented tutorials
+* R tutorials
+
+### Interactive "spreadsheet"" tutorials 
+These "spreadsheet"" tutorials are meant to be either read worked thorugh on their own or, ideally, with a spreadsheet such as Excel or Google Sheets open.  R does not have much real spreadsheet capabilities, and but the general output you should be creating is displayed.  An imporant part of these tutorials are prompts to answer questions about the calculations that are being demonstrated (and which you are hopefully doing in a spreadsheet as you go!).   At times there will be small windows where you can input numbers like a scientific calaculator to do simple calculations.  Links are provided to example spreadsheets and worksheets that can be filled out based on the calculations being done.
+
+### Interative R Tutorials
+
+The interactive R-tutorials are designed to help you learn the basics of R while providing a lot of help.  LIke the "spreadsheet" exercises, these tutorials don't run in R (or a spreadhseet) but in your webbrowser.  Aspects of an R session or emulated and you can type code into input windows and see the output.  Importantly, you can get hints and helps to figure out the code you need to write.  THere are also questiosn to test you understanding as you go.
+
+
+## Running the interactive tutorials
+
+To use the interactive tutorials you will need
+
+* R to be installed on your computer
+* RStudio to be installed
+* The devtools and learnr packages from CRAN
+* The abdcompanion package
+
+
+### Getting the devtools package 
+
+To get devtools from installed from, you can type 
+
+```{r eval = F}
+install.packages("devtools")
+```
+
+Or find the Files / Plots / Packages / Help / Viewer tab in RStudio, click on Packages, and then Install, and enter "devtools."
+
+Do the same thing to get the learnr package.
+
+### Getting the abdcompanin package from GitHub
+
+To install the abdcompanion package, first download it from GitHub using the install_github() function from the devtools package.
+```{r}
+devtools::install_github("brouwern/abdcompanion")
+```
+
+Now explicitly load the packge using the library() function.
+```{r}
+library(abdcompanion)
+```
+
+
+### Running an interactive tutorial
+
+Finally, run the desired tutorial using the run_tutorial() function from the learnr package.
+```{r}
+learnr::run_tutorial("frogs_spreadsheet", package = "abdcompanion")
+```
+
+R will run some code in the console and then your default web browser will open up.  You can then click through the tutorial.
+
+### Closing 
+

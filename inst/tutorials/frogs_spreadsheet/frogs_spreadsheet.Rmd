@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(here)
 library(kableExtra)
 
-load(here::here("./inst/tutorials/frogs/frogs_char.RData"))
+load(here::here("./inst/tutorials/frogs_spreadsheet/frogs_char.RData"))
 
 footnotes <- c("Notes: notes on each row", 
 "n: sample size; the total number of toads, coin flips etc",
