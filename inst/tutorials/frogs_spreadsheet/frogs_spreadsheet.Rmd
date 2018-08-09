@@ -1,5 +1,5 @@
 ---
-title: "Hypothesis testing: Frog handedness example"
+title: "Hypothesis testing tutorial: Are toads right-handed?"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -10,14 +10,17 @@ knitr::opts_chunk$set(echo = FALSE)
 library(here)
 library(kableExtra)
 
-load(here::here("./inst/tutorials/frogs_spreadsheet/frogs_char.RData"))
+load(here::here("./inst/tutorials/toads_spreadsheet/toads_char.RData"))
 
-footnotes <- c("Notes: notes on each row", 
+# footnotes to appear at bottom of main windw
+footnotes <- c(
+"Notes: notes on each row", 
 "n: sample size; the total number of toads, coin flips etc",
 "X.R.hand: Right-handed; the number of right-handers observed in a sample.  This study observed 14 righties.",
-"prop.x: proportion X; the number of right-handed frogs (X) out of all of them (n)",
+"prop.x: proportion X; the number of right-handed toads (X) out of all of them (n)",
 "prob.x: probability X: is the probability that, if our null is correct, how likely are we to end up with a sample of 14 right handers out of 18 due to chance.")
 
+# bootstrap options for tables (?)
 my.boot.opt <- c("striped", 
                  "hover", 
                  #"condensed",
@@ -26,30 +29,88 @@ my.boot.opt <- c("striped",
 
 ## To Do
 
+* worksheet
 * plots (barplots)
-* frog picture
 * why answers to quizes showing up?
 
+## Preface
 
-## Introduction
+This tutorial is based on Chapter 6: Hypothesis testing from Whitlock & Schluter's [*Analysis of Biological Data*.](http://whitlockschluter.zoology.ubc.ca/).
 
-frogs!
+In section 6.2: "Hypothesis testing: an example" (pg 153, 2nd ed), Whitlock & Schluter present data from a paper by Bisazza et al (1996) titled ["Right-pawedness in toads"](https://www.nature.com/articles/379408a0), published in Nature.
 
-## The frog-handedness data
+
+### References
+
+Bisazza, A,C Cantalupo, A Robins, LJ Rogers and G Vallortigara.  1996.  [Right-pawedness in toads.  Nature 379: 408.](https://www.nature.com/articles/379408a0)
+
+Fitch & Braccini 2013.  [Primate laterality and the biology and evolution of human
+handedness: a review and synthesis.  Annal of the New York Academy of Sciences.](https://nyaspubs.onlinelibrary.wiley.com/doi/abs/10.1111/nyas.12071)
+
+![](https://commons.wikimedia.org/wiki/File:Common_toad_(Bufo_bufo)_Kampinos.jpg#/media/File:Common_toad_(Bufo_bufo)_Kampinos.jpg)
+
+
+## Introduction 
+
+Humans populations are typically about 90% right-handed (Fitch & Braccini 2013).  Do other species preferentially complete tasks with one hand (or paw)?  As part of their study, Bisazza et al (1996) assayed 18 wild-caught [common toads (*Bufo bufo*)](https://en.wikipedia.org/wiki/Common_toad) in the lab to determine whether they completed a task preferentially with their right or left paws.
+
+In this study, 14 of the 18 toads completed the task with their right paw, and 4 completed it with their left.  Is this evidence that toads in this population are like humans predominantly use one paw over the other?
+
+In this tutorial we will walk through Whitlock & Schluter's assessment of this question and carry out a **hypothesis test**.  We will carry out all the calcualtions needed to reproduce their Table 6.2-1 (page 156) and the other calculations in the text (pages 153-159).
+
+In particular, we will walk through the process of carrying out a **hypothesis test** using what statisticians call **binomial data** by calculating a **p-value** and comparing it against a **sampling distribution.**
+
+It should be noted that the specific hypothesis being tested is not whether frogs are right-handed or left-handed; rather, whether there is an over tedency in the population, which could be right handed or left handed.  This is somewhat awkward, but the reason things are framed this way should gradually become apparent.
+
+## Hypothesis testing with binomial data
+
+When you [flip a coin](https://en.wikipedia.org/wiki/Coin_flipping) you get one of two possible results: "heads" (usually the face of a famous person) or "tails."  Statisticians call the process of flipping the coin a **trial** (in particular a Bernouli trial).  If you do several coin flips you have generate data which can give you information on how likely you are to get heads or tails.  This is called **binomial data**.  The number of heads you get is the number of **events** or **successes**.
+
+The toad data from Bisazza et al (1996) is also **binomial data**.  It consists of 18 **trials** where there are two possible results: left paw or right paw.
+
+Binomial data is very common in biology: is an organism alive or dead?  Was a flower eaten or not eaten?  Is a fruit fly male or female?  Binomial data is also very useful for demonstrating core concepts of hypothesis testing because the math is fairly easy.
+
+![](https://commons.wikimedia.org/wiki/File:Coin_Toss_(3635981474).jpg#/media/File:Coin_Toss_(3635981474).jpg)
+
+
+## Carrying out calcualtions in a spreadsheet 
+
+The goal of this tutorial is to walk you step by step through the calcualtions done by Whitlock & Schluter and to provide opportunities to interact directly with the data.  Ideally, while working through this tutorial you will carry out the calculatiosn as you go either on the provided worksheet or in a spreadsheet.  A spreadsheet like table will be displayed showing you the calculations as they are done.  You can also do calculations using basic R code within the tutorial if you want.
+
+There will also be prompts to answer questions on the calculatiosn and concepts as you go.  
+
+![](https://commons.wikimedia.org/wiki/File:OpenOffice.org_Calc.png#/media/File:OpenOffice.org_Calc.png)
+
+## Key Concepts in hypothesis testing
+
+* Hypothesis 
+* Null hypothesis (Ho)
+* Alternative hypothesis (Ha)
+* Sampling distribution
+* test statistic
+* binomial data
+* critical value (alpha)
+
+
+## Summary of the toad-handedness data
+
+The table below summarizes the data we will be using and the abbreviations that will be used in subsequent tables.  The letter **X** is often used to indicate the number of focal **events** or **successes**, so I call the number of right-pawed (or handed)  toads **X.right.handed**.  The letter **n** indicates sample size which here is the total number of **trials**; that is, the total number of toads in the study.  I'll call this **n.total** for emphasis.
+
+In the subsequent steps of this tutorial we'll reformat these numbers into a special structure that will represent what is known as a **sampling distribution**.  This will allow us to calcualte the **p-value**, which will allow us to assess the hypothesis of whether frogs preferentially use one paw or not.
 
 ```{r echo = F}
 x <- sheets.list[[1]][c(1:4),c(1:3)]
 x %>%
-  kable(caption = "Raw data") %>%
-  kable_styling(bootstrap_options = my.boot.opt,
+  knitr::kable(caption = "Raw toad handedness data") %>%
+  kableExtra::kable_styling(bootstrap_options = my.boot.opt,
                 position = "left")
 ```
 
 ## Data exploration worksheet
 
-Set up a table like this.  The structure will be apparent as we work through things.  We will build up this table to explore the implications of the null hypothesis that frog are no more likely to be right handed than left handed.  "n" is the starting number of toads (the sample size). "X.R.hand" is an abbreviation of "right-handed" and is the number of right-handers observed in this sample.
+In a spreadsheet set up a table that looks like this, or use the provided blank handout.  An example of spreadsheet can be downloaded as a .csv file from [here]().  The structure will be apparent as we work through things.  We will build up this table to explore the implications of the null hypothesis that toad are no more likely to be right handed than left handed.  "n" is the starting number of toads (the sample size). "X.R.hand" is an abbreviation of "right-handed" and is the number of right-handers observed in this sample.
 
-"proportion.X" is the proportion of frogs that are right handed.  This is calculated as the (number observed R-handed)/(total observed)
+"proportion.X" is the proportion of toads that are right handed.  This is calculated as the (number observed R-handed)/(total observed)
 
 
 ```{r echo= F}
@@ -70,11 +131,11 @@ question("Estimate the approximate value of proportion.X",
 
 
 
-## Probability of a specific number of right-handed frogs
+## Probability of a specific number of right-handed toads
 
 "prob.X" is the probability that, if our null (Ho) is correct, we will end up with a sample of 14 right handers out of 18 just due to chance.
 
-That is, if the population overall has a 50:50 ratio of right:left handed frogs, how likely are we to get a biased sample of 14 right handers and only 4 left handers.
+That is, if the population overall has a 50:50 ratio of right:left handed toads, how likely are we to get a biased sample of 14 right handers and only 4 left handers.
 
 ```{r echo= F}
 sheets.list[[3]] %>%
@@ -108,7 +169,7 @@ question("If **100 people** in your class all flipped 18 coins *each*, what is t
 
 
 
-## Probability of a specific number of right-handed frogs
+## Probability of a specific number of right-handed toads
 
 To calculate this probability we need the binomial distribution		
 
@@ -135,12 +196,12 @@ sheets.list[[4]][,-c(7:8)] %>%
 
 
 
-## Probability of a specific number of right-handed frogs
+## Probability of a specific number of right-handed toads
 
 The probability of 14 toads being right handed in the null hypothesis was true is 0.012
-Note that this is the probability of getting exactly 14 frogs.
+Note that this is the probability of getting exactly 14 toads.
 
-So, we can say that if frogs are not more likely to be right handed than left handed (because why would they?), we would expect that the probability of getting  a sample of exactly 14 right-handed frogs (0.78 right handed, or 78%, the value in the "proportion.X" columne) is 0.012.  So pretty unlikely.  Another way of say this is that if we got that many, we would be surprised (again, assuming that the real probability is indeed 0.5).
+So, we can say that if toads are not more likely to be right handed than left handed (because why would they?), we would expect that the probability of getting  a sample of exactly 14 right-handed toads (0.78 right handed, or 78%, the value in the "proportion.X" columne) is 0.012.  So pretty unlikely.  Another way of say this is that if we got that many, we would be surprised (again, assuming that the real probability is indeed 0.5).
 
 A proportion of 0.012 is equivalent to about 1/100 (1/112 to be more precise).
 
@@ -159,7 +220,7 @@ sheets.list[[5]]%>%
 ## Fill out data table
 
 * Let's fill out the table some more.  
-* n is always 18 because we are only considering an study where 18 frogs were examined.
+* n is always 18 because we are only considering an study where 18 toads were examined.
 
 
 ```{r echo= F}
@@ -174,9 +235,9 @@ sheets.list[[6]]%>%
 ## Fill out data table some more
 
 * The goal of this table is to think about all the possible ways the study could've panned out and all the possible alternative sets of results we could've gotten.
-* That is, if you sample 18 frogs, what are the other possible number of right-handed frog 
+* That is, if you sample 18 toads, what are the other possible number of right-handed toad 
  you could've observed?
-* This is just simply all the other possible number of right handed frogs: 0 right handers
+* This is just simply all the other possible number of right handed toads: 0 right handers
  or 1 right hander, or 2, or 3, or . 18.
 
 
@@ -207,7 +268,7 @@ sheets.list[[8]]%>%
 
 
 ```{r q4}
-question("Frogs are no more likely to be right handed than left handed so you'd expect that if you collected 18 frogs.How many would be right handed?",
+question("toads are no more likely to be right handed than left handed so you'd expect that if you collected 18 toads.How many would be right handed?",
     answer("3"),
     answer("6"),
     answer("9", correct = TRUE),
@@ -218,9 +279,9 @@ question("Frogs are no more likely to be right handed than left handed so you'd 
 
 
 
-## What is the probability of exactly 9 right-handed frogs (if the null is true)?
+## What is the probability of exactly 9 right-handed toads (if the null is true)?
 
-If frog are no more likely to be right handed than left handed, you'd expect that if you collected 18 frogs, 9 would be right handed, and 9 would be left handed.  So 0.5 or 50% would be righties.
+If toad are no more likely to be right handed than left handed, you'd expect that if you collected 18 toads, 9 would be right handed, and 9 would be left handed.  So 0.5 or 50% would be righties.
 
 Even if the null is true, how likely is it to get exactly 9?
 
@@ -242,11 +303,11 @@ question("What is the **probability** that you would get **exactly 9** right han
   )
 ```
 
-## What is the probability of exactly 9 right-handed frogs (if the null is true)?
+## What is the probability of exactly 9 right-handed toads (if the null is true)?
 
 The answer might be a bit surprising: 0.19.  Why isn't it 0.5?
 
-Remember, we are considering the probability of getting **exactly** 9 right-handed frogs. (AND we are thinking about a world where the true probalbity of frogs being righted handed is indeed 0.5)
+Remember, we are considering the probability of getting **exactly** 9 right-handed toads. (AND we are thinking about a world where the true probalbity of toads being righted handed is indeed 0.5)
 
 ```{r echo= F}
 sheets.list[[10]]%>%
@@ -259,7 +320,7 @@ sheets.list[[10]]%>%
 
 
 
-## What is the probability of exactly 9 right-handed frogs (if the null is true)?
+## What is the probability of exactly 9 right-handed toads (if the null is true)?
 
 * Its not 0.5 because we are asking "What are the chances of getting **exactly 9** toads which are right handed, no more no less." 
 * This is like asking "What are the chance of flipping a coin 18 times and getting exactly 9 heads."
@@ -281,10 +342,10 @@ sheets.list[[11]]%>%
 
 
 
-## What is the probability of getting about 9 frogs (if the null is true)?
+## What is the probability of getting about 9 toads (if the null is true)?
 
 * We can test this but calcualting the probabilities of these different options and adding them up
-* THe calcualtiosn in this spreadsheet shot that indeed, if your coin is fair or frogs are 50:50 R:L then the probability of getting 8, 9 or 10 heads is 0.52
+* THe calcualtiosn in this spreadsheet shot that indeed, if your coin is fair or toads are 50:50 R:L then the probability of getting 8, 9 or 10 heads is 0.52
 * Moreover, the probability of getting between 7 and 11 is really high: 0.76
 
 ```{r echo= F}
@@ -372,7 +433,7 @@ sheets.list[[15]]%>%
 ## What is the probablity of an extreme event?
 
 How about the opposite scenario: flipping a coin 18 and getting no heads?
-(or, for us, sampling 18 frogs and getting none that are right handed when
+(or, for us, sampling 18 toads and getting none that are right handed when
 the source population is 50:50)
 
 
@@ -426,7 +487,7 @@ sheets.list[[18]]%>%
 
 
 
-## What is the opposite of 14 right-handed frogs?
+## What is the opposite of 14 right-handed toads?
 
 One last preliminary number.  We observed 14 right handers and only 4 lefties.
 Something to consider is what if we got the converse of this: only 4 righties and 14 lefties?  Both possiblities have the same probability.  
@@ -523,7 +584,7 @@ sheets.list[[22]]%>%
 
 ## Moving forward: tail probabilities
 
-We can add up all of these numbers and see that they are the same as for 14 or more right-handed frogs.
+We can add up all of these numbers and see that they are the same as for 14 or more right-handed toads.
 
 ```{r echo= F}
 sheets.list[[23]]%>%

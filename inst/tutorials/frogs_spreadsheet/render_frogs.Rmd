@@ -32,3 +32,4 @@ Finally, run desired tutorial using the run_tutorial() function from the learnr 
 learnr::run_tutorial("frogs_spreadsheet", package = "abdcompanion")
 ```
 
+
