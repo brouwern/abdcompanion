@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-rmarkdown::run(here::here("./inst/tutorials/frogs_spreadsheet/frogs_spreadsheet.Rmd"))
+rmarkdown::run(here::here("/inst/tutorials/toad_spreadsheet/toads_spreadsheet_learnr.Rmd"))
 ```
 
 
