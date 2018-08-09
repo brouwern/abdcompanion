@@ -29,7 +29,7 @@ library(abdcompanion)
 
 Finally, run desired tutorial using the run_tutorial() function from the learnr package.
 ```{r}
-learnr::run_tutorial("toads_spreadsheet_learnr", package = "abdcompanion")
+learnr::run_tutorial("/toad_spreadsheet", package = "abdcompanion")
 ```
 
 
