@@ -47,16 +47,15 @@ Bisazza, A,C Cantalupo, A Robins, LJ Rogers and G Vallortigara.  1996.  [Right-p
 Fitch & Braccini 2013.  [Primate laterality and the biology and evolution of human
 handedness: a review and synthesis.  Annal of the New York Academy of Sciences.](https://nyaspubs.onlinelibrary.wiley.com/doi/abs/10.1111/nyas.12071)
 
-![](https://commons.wikimedia.org/wiki/File:Common_toad_(Bufo_bufo)_Kampinos.jpg#/media/File:Common_toad_(Bufo_bufo)_Kampinos.jpg)
 
 
 ## Introduction 
 
 Humans populations are typically about 90% right-handed (Fitch & Braccini 2013).  Do other species preferentially complete tasks with one hand (or paw)?  As part of their study, Bisazza et al (1996) assayed 18 wild-caught [common toads (*Bufo bufo*)](https://en.wikipedia.org/wiki/Common_toad) in the lab to determine whether they completed a task preferentially with their right or left paws.
 
-In this study, 14 of the 18 toads completed the task with their right paw, and 4 completed it with their left.  Is this evidence that toads in this population are like humans predominantly use one paw over the other?
+In this study, 14 of the 18 toads completed the task with their right paw, and 4 completed it with their left.  Is this evidence that toads in this population are like humans and predominantly use one paw over the other?
 
-In this tutorial we will walk through Whitlock & Schluter's assessment of this question and carry out a **hypothesis test**.  We will carry out all the calcualtions needed to reproduce their Table 6.2-1 (page 156) and the other calculations in the text (pages 153-159).
+In this tutorial we will walk through Whitlock & Schluter's assessment of this question and carry out a formal **hypothesis test** to address this question.  We will carry out all the calcualtions needed to reproduce their Table 6.2-1 (page 156) and the other calculations in the text (pages 153-159), as well as dig a bit deeper into the underlying math.
 
 In particular, we will walk through the process of carrying out a **hypothesis test** using what statisticians call **binomial data** by calculating a **p-value** and comparing it against a **sampling distribution.**
 
