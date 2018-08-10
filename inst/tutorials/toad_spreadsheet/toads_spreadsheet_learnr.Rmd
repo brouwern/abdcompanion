@@ -481,7 +481,7 @@ Consider which row of the datatable matches up to our null hypothesis.  Again, o
 
 
 ```{r echo= F}
-sheets.list[[8]]%>%
+sheets.list[[8]][,-c(8,9)]%>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive"))
 ```
@@ -501,46 +501,49 @@ question("Assume that toads are no more likely to be right-handed than left-hand
 
 
 
-## What is the probability of exactly 9 right-handed toads (if the null Ho is true)?
+## What is the probability of exactly 9 right-handed toads 
 
-If toad are no more likely to be right handed than left handed, you'd expect that if you collected 18 toads, 9 would be right handed, and 9 would be left handed.  So 0.5 or 50% would be righties.  We can fill in 0.5 in the prop.X column.
+If toad are no more likely to be right handed than left handed, you'd probably expect that if you collected 18 toads, 9 would be right handed, and 9 would be left handed.  If this is how the experiment played out 50% would be righties. We can fill in 0.5 in the **prop.X** column.
 
-But, even if the null is true, how likely is it to get exactly 9?  That is what is the *probability* of 9 toads (prob.X w/ a "b").
+While we might *expect* to get 9 toads that are right handed if the null was true, how *likely* is it to actually get 9 toads?  That is what is the **probability** of 9 toads (The **prob.X** w/ a **"b"**).
 
-We'll calculate this exactly with the binomial distribution in a second.  First consider what it might be approximately.
+
 
 ```{r echo= F}
-sheets.list[[9]]%>%
+sheets.list[[9]][,-c(8,9)] %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) 
 ```
 
 
+## Getting exactly 9 toads
 
+We'll calculate the **probability** of getting nine toads exactly with a tool called the **binomial distribution** in a second.  First, though consider what it might be approximately.
 ```{r q5}
 question("What is the approximate **probability** that you would get **exactly 9** right handers in the study? (equivalently, if you flipped 18 coins, you'd get exactly 9 heads?)",
-    answer("1 in 1000; pretty unlikely"),
+    answer("1 in 1000; pretty unlikely",
+           message = "Its unlikely, but not that unlikely!"),
     answer("2 in 10 (= 1 in 5)",
            correct = TRUE,
            message = "Good intuition.  To get exactly 9 would be kind of unlikely.  
-           As we'll get to next, getting around 9 (8, or 9, or 10)."),
+           As we'll get to next, getting around 9 (say, between 7 and 11, is fairly unlikley)."),
     answer("5 in 10 (= 1 in 2, or 50:50)", 
-           message = "This is a common intuition but incorrect.  Getting around getting around 9 (8, or 9, or 10) is close to 50:50, but getting exactly 9 is unlikely."),
+           message = "This is a common intuition but incorrect.  Getting around getting around 9 (between 7 and all, say) is close to 50:50, but getting exactly 9 is unlikely."),
     answer("1; defintely"),
     allow_retry = TRUE
   )
 ```
 
-## What is the probability of exactly 9 right-handed toads (if the null is true)?
+## What is the probability of exactly 9 right-handed toads?
 
-The answer might be a bit surprising: ~0.19.  Why isn't it 0.5?
+What's the probability of getting exactly 9 right handed toads if the null hypothesis is true?  The answer might be a bit surprising: **~0.185.**  Why isn't it 0.5?
 
 Remember, we are considering the probability of getting **exactly** 9 right-handed toads. (AND we are thinking about a world where the true probalbity of toads being righted handed is indeed 0.5).
 
 We can fill this value in to our table under the "prob.X".  In Excel this would be by modifying the BINOM.DIST() code we used previously.  If you copy and paste that code into the appropriate cell it should update to show the correct answer.  Otherwise, it should be something like "=BINOM.DIST(C11,B11,0.5,FALSE)".  
 
 ```{r echo= F}
-sheets.list[[10]]%>%
+sheets.list[[10]][,-c(8,9)] %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) 
 ```
@@ -550,7 +553,7 @@ sheets.list[[10]]%>%
 
 
 
-## What is the probability of exactly 9 right-handed toads (if the null is true)?
+## Why isn't the answer 0.5?
 
 * Its not 0.5 because we are asking "What are the chances of getting **exactly 9** toads which are right handed, no more no less." 
 * This is like asking "What are the chance of flipping a coin 18 times and getting exactly 9 heads."
@@ -559,8 +562,9 @@ sheets.list[[10]]%>%
 * So, overall, its very likely that you'll get close to 9 heads, but exactly 9 is kind of hard.
 
 
+
 ```{r echo= F}
-sheets.list[[11]]%>%
+sheets.list[[11]][,-c(8,9)] %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) 
 ```
@@ -572,12 +576,12 @@ sheets.list[[11]]%>%
 
 
 
-## What is the probability of getting about 9 toads (if the null is true)?
+## What is the probability of getting -about- 9 toads?
 
-* We can test this but calcualting the probabilities of these different options and adding them up
-* First we can calculate prob.X for 7, 8, 10 and 11 right handers.
+* Its pretty unlikely to get exactly 9 right handed toads.  What about getting around 9 toads, eg, between 7 and 11?
+* We can test this but calculating the probabilities of all of these different options and adding them up
+* First we can calculate **prob.X** for 7, 8, 10 and 11 right handers.
 * Next we can add these values up.  We'll put the sum of these values in the "total.prob" column ("total probability"). 
-* Ignore the tail probabilities column
 * So, we can add up 0.12 + 0.17 + 0.19 + 0.17 + 0.12, which = ~0.77
 
 ```{r echo= F}
@@ -595,10 +599,10 @@ sheets.list[[12]]%>%
 
 ## What is the probablity of an extreme event?
 
-* What about something extreme, like flipping a coin 18 times and getting all heads
-* or, for this study, sampling 18 toads and all of them are right handed even
-though in the population they are from the ratio of righties to lefties is 50:50?
-* We can fill inthe proportion.X column as 1.  What is the probability of this occuring (prob.X)?
+* What about something extreme, like flipping a coin 18 times and getting all heads..
+* ...or, for this study, sampling 18 toads and all of them are right handed even though in the population they are from the ratio of righties to lefties is 50:50?
+* We can fill in the proportion.X column as 1 (18/18 = 1).  
+* Now, What is the probability of this occuring (prob.X)?
 
 ```{r echo= F}
 sheets.list[[13]]%>%
@@ -611,12 +615,15 @@ sheets.list[[13]]%>%
 
 ```{r q14}
 question("What is the probability of all 18 toads being right handed if the null is true?",
-    answer("0.0; never going to happen ever"),
+    answer("0.0; never going to happen ever",
+           message = "Its not likely, but it could potentially happen"),
     answer("1 in 100,000; very very unlikley", 
            correct = TRUE,
            message = "That's right; this is almost never going to happen."),
-    answer("1 in 100"),
-    answer("1 in 10"),
+    answer("1 in 100",
+           message = "Less likely than this..."),
+    answer("1 in 10",
+           message = "MUCH less likely that this!"),
     allow_retry = TRUE
   )
 ```
@@ -627,9 +634,9 @@ question("What is the probability of all 18 toads being right handed if the null
 
 
 
-## What is the probablity of an extreme event?
+## Writing out really really small probabilities
 
-This probability can be calculated using the BINOM.TEST function again. 
+This probability can be calculated using the BINOM.TEST() function again. 
 
 As you might expect, the probability of this happening is really really small:
 
@@ -638,6 +645,8 @@ As you might expect, the probability of this happening is really really small:
 * or 0.00000381
 * or about 4 in 1 million
 * or 1 in 250,000
+
+However, since this number is so small, it will often be rounded to zero, as happens here since I"m rounding to 3 digits.
 
 Think about how small this number is: this means that if every student on campus right now stopped, pulled out a coin, and flipped it 18 times, not a single one will likely get 18 heads.
 
@@ -657,8 +666,7 @@ sheets.list[[14]]%>%
 ## What is the probablity of a slightly less extreme event?
 
 
-What about 17 right handers and only 1 leftie? This is just a touch more likley
-6.87E-05 or 6.87 * 10^-5 or 0.0000687
+What about just 17 right handers and only 1 leftie? This is just a touch more likley: 6.87E-05 or 6.87 * 10^-5 or 0.0000687.  Its so small, though, it basically is still rounded to zero.
 
 ```{r echo= F}
 sheets.list[[15]]%>%
@@ -673,17 +681,37 @@ sheets.list[[15]]%>%
 
 
 
-## What is the probablity of an extreme event?
+## What about an extreme number of -left- handed toads?
 
 How about the opposite scenario: flipping a coin 18 and getting no heads?
-(or, for us, sampling 18 toads and getting none that are right handed when
-the source population is 50:50)
+(or, for us, sampling 18 toads and getting all lefties when
+the source population is 50:50).
+
+We can fill in 0 for our **prop.X** in column E for our proportion of right-handers.  What's the probability of getting 0 righties and all lefties?
 
 
 ```{r echo= F}
 sheets.list[[16]]%>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) 
+```
+
+
+## What about an extreme number of -left- handed toads?
+
+```{r alllefties}
+question("What is the probability of all 18 toads being LEFT handed if the null is true?",
+    answer("0.000; never going to happen ever",
+           message = "Its not likely, but it could potentially happen"),
+    answer("0.0000687", 
+           correct = TRUE,
+           message = "That's right; Same as for getting all righties"),
+    answer("1 in 100",
+           message = "Less likely than this..."),
+    answer("1 in 10",
+           message = "MUCH less likely that this!"),
+    allow_retry = TRUE
+  )
 ```
 
 
@@ -694,12 +722,13 @@ sheets.list[[16]]%>%
 
 
 
-
-## What is the probablity of an extreme event?
+## What about an extreme number of -left- handed toads?
 
 * The probability is 3.81E-06, the same as for 18 head and no tails.   
 * This is because the converse of getting 18 heads and no tails is getting 18 tails and no heads.
 * Or, for this study, the converse of getting 18 right handers and no lefties is getting 18 lefties and no righties
+* Use BINOM.TEST() to calculate this in Excel (the easiest way to do it woudl be ot just copy and paste one of your previously used formulas)
+* Again, this number is printed out as 0.000 because I am rounding to 3 digits; but it is not actually 0.000
 
 
 ```{r echo= F}
@@ -716,7 +745,7 @@ sheets.list[[17]]%>%
 ## Filling out some more parts of the table
 
 
-For the sake of completeness we'll fill in a few more situations.  First, getting just one right hander and no 17 lefties is the converse of getting 18 right handers and just 1 leftie.
+For the sake of completeness we'll fill in a few more situations.  First, getting just 1 right hander and  17 lefties is the converse of getting 18 right handers and just 1 leftie.  Again, very small, but not exaclty 0.000, it just gets rounded to that.
  
 ```{r echo= F}
 sheets.list[[18]]%>%
@@ -727,24 +756,14 @@ sheets.list[[18]]%>%
 
 
 
-
-
-
 ## What is the opposite of 14 right-handed toads?
 
 One last preliminary number.  We observed 14 right handers and only 4 lefties.
 Something to consider is what if we got the converse of this: only 4 righties and 14 lefties?  Both possiblities have the same probability.  
 
-Moving forward, it will be important to consider both what we happened to observed and the 
-converse or mirror image event.
+Moving forward, it will be important to consider both what we happened to observed and the converse or mirror image event.
 
-Say somone bets you "I can flip a coin and get 14 heads.  You think they are a sucker so you say yes.
-They take out a coin, flip it in the air, catch it in their palm, then flip it over on to the back of their hand.
-They keep getting heads - 14 times!
-You suspect the coin is rigged.
-Now, what if they had said "I can flip a coin and only 4 tails."  This is the converse
-
-(is this makign sense)
+When thinking about whether frogs might be right or left handed, we are biased by the fact that humans are right handed.  But before we did the experiment, we might not have an expectation of whether, if a bias exists, its towards right-handedness or left-handedness.  We therefore should consider whether a bias of any kind exists.
 
 
 ```{r echo= F}
@@ -760,21 +779,22 @@ sheets.list[[19]]%>%
 
 
 
-## Moving forward: tail probabilities
+## From hands to tails: tail probabilities
 
-* what is more likely, to get 14 geads, or at least 14 heads?
+* what is more likely: to get 14 geads, or at least 14 heads?
 * that is, to get 14 or 15 or 16 or 17 or 18.
-* If I am concerned that a coin is not fair I am probably not concerned that it produces
-an exact number of heads for a given number of flips 
+* If I am concerned that a coin is not fair I am probably not concerned that it produces an exact number of heads for a given number of flips 
 * That wouldn't be a rigged coin, but straight up magic!
-* what I'd be concerned with is that it produces an unual number of heads
+* what I'd be concerned with is that it produces an unusual number of heads
 so I won't be interested in exactly 14, but 14 or more
+
+## From hands to tails: tail probabilities
+
 * So, moving forward, let's consider what the probablity of getting more than 14 right-handed toads
 * In statistical terms, what we are talking about here is a "tail probability"
 * We've already done some of this so we'll fill in 15 righties and 16 righties
-* Something to consider is "What is the probability of getting 14 OR MORE right handed toad, if in reality the source population is 50:50 R:L"
 
-When we add up probabilites like these we are calculating "tail probabilities."  We'll explain why later.
+When we add up probabilites we get about 0.015.  This is our  "tail probability."  We'll explain what its that tail of later.
  
  
 ```{r echo= F}
@@ -809,13 +829,9 @@ sheets.list[[21]]%>%
 
 
 
-
-
-
 ## Moving forward: tail probabilities
 
-Getting lots of heads is the converse of getting lots of tails and depends on your coin flipping protocol.  So getting 14 or more tails is just as unusual as 14 or more tails.  
-or, equivalently, 4 or fewer heads.  (Again, this is all assuming the null is true - tired of me saying that yet?)
+Getting lots of heads is the converse of getting lots of tails and depends on your coin flipping protocol.  So getting 14 or more tails is just as unusual as 14 or more tails.  or, equivalently, 4 or fewer heads.  (Again, this is all assuming the null is true - tired of me saying that yet?)
 
 
 ```{r echo= F}
@@ -862,9 +878,13 @@ sheets.list[[24]]%>%
 ```{r q24}
 question("What does the prob.X column sum to?",
          answer("0.5"),
-         answer("1",correct = TRUE),
-         answer("2",message = "We're working with probabilities so they always add up too..."),
-         answer("100",message = "This would be true if we were working iwth %s"))
+         answer("1",
+                correct = TRUE,
+                message = "We have enumerated all the possibilities, so they should sum up to 1.0"),
+         answer("2",
+                message = "We're working with probabilities so they always add up too..."),
+         answer("100",
+                message = "This would be true if we were working with %s"))
 ```
 
 
@@ -886,10 +906,55 @@ sheets.list[[25]]%>%
 
 ## Total of all tails
 
+The number we're interested in 
+
 ```{r echo= F}
 sheets.list[[26]]%>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed","responsive")) 
+```
+
+
+## Direct binomial test in Excel
+
+
+
+## Looking ahead: Direct binomial test in R
+
+### This tidbit is optional
+
+We can do a binomial test directly in R using the **binom.test()** function.
+
+As is convection x = 14, the number of events or successes (right-handed toads) and n = 18, the number of trials.  "p = 0.5" represents the null hypothesis.
+
+If you poke around the output you'll see the p-value listed.
+
+```{r binomtest , exercise=TRUE}
+binom.test(x=14, n=18, p = 0.5)
+```
+
+R provides some additinal information, beyond what we've talked about.  One thing is the "95 percent confidence interval".  This is listed as 0.5236 and 0.9359.  This confidence interval brackeds the observed probability of success, 0.778.  It represents other plausible values for the proportion of right-handed frogs in the population, given that we have a sample size of only 18.  Note that it doesn't contain the null value of 0.05.
+
+## Looking ahead: logistic regression
+
+### This tidbit is optional
+
+A modern extension of binomial tests is **logistic regression.**  Logistics regression is a type of **generalized linear model**, or **glm** for short.  We can implement a the logistic regression version of our binomail test on our data using the **glm()** function in R.  THere are several types of **glm**s, so we need to tell R "family = 'binomail'" so it knows that we have binomial data.
+
+The output from a glm is much more compliated.  Can you spot the p-value inthe mix?  Its actually less than 0.031, the value form the binomail test, but close.
+
+```{r}
+#make the data
+hand <- c(rep("L",4),rep("R",14))
+
+#make into a dataframe
+dat <- data.frame(hand)
+
+#run logistic regression using glm() function
+hand.logit <- glm(hand ~ 1, data = dat, family = "binomial")
+
+#look at output
+summary(hand.logit)
 ```
 
 
