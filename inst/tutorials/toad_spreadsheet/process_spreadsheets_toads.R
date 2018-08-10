@@ -26,8 +26,6 @@ for(i in 1:length(sheets.list)){
 }
 
 
-# save .RData w/ spreadsheets
-save(sheets.list, file = "toads_raw.RData")
 
 #function to round data
 my.round <- function(x){
@@ -48,23 +46,54 @@ for(i in 1:length(sheets.list)){
   }
 }
 
-sheets.list[[i]][,j]
+
 
 
 #convert to character data
-for(i in 1:length(sheets.list)){
+sheets.list.char <- sheets.list
+for(i in 1:length(sheets.list.char)){
 
-  sheets.list[[i]] <- apply(sheets.list[[i]],2,as.character)
+  sheets.list.char[[i]] <- apply(sheets.list.char[[i]],2,as.character)
 }
 
 
 
 # convert NAs to ""
 ## <<ugly code alert>>
-for(i in 1:length(sheets.list)){
-  for(j in 1:ncol(sheets.list[[i]])){
-    sheets.list[[i]][is.na(sheets.list[[i]][,j]),j] <- " "
+for(i in 1:length(sheets.list.char)){
+  for(j in 1:ncol(sheets.list.char[[i]])){
+    sheets.list.char[[i]][is.na(sheets.list.char[[i]][,j]),j] <- " "
   }
 }
+
+
+
+for(i in 1:length(sheets.list.char)){
+  #extract column names
+  col.names <- colnames(sheets.list.char[[i]])
+
+  # add ** to make bold
+  col.names <- paste("**",col.names,"**",sep = "")
+
+  # make letters
+  column.ids <- toupper(letters[1:ncol(sheets.list.char[[i]])])
+  colnames(sheets.list.char[[i]]) <- column.ids
+
+  sheets.list.char[[i]] <- rbind(col.names,
+                                 sheets.list.char[[i]])
+
+  row.ids <- c(1:nrow(sheets.list.char[[i]]))
+  sheets.list.char[[i]] <- cbind(row.ids,sheets.list.char[[i]])
+
+  colnames(sheets.list.char[[i]])[1] <- ""
+
+  rownames(sheets.list.char[[i]]) <-NULL
+}
+
+
+sheets.list.char[[1]]
+
+
+sheets.list <- sheets.list.char
 
 save(sheets.list, file = "./inst/tutorials/toad_spreadsheet/toad_as_character.RData")
