@@ -11,10 +11,11 @@ library(here)
 library(kableExtra)
 
 #load(here::here("inst/tutorials/toad_spreadsheet/toad_as_character.RData"))
-load(here::here("data/toad_as_character.RData")) #should work regardless
+getFromNamespace(here::here("data/toad_as_character.RData")) #should work regardless
 
-#data("toad_as_character") #this would load from installed packaged
-#                          #only will work if packaged installed
+#data("toad_as_character", 
+#     package = "abdcompanion") #this would load from installed packaged
+#                              #only will work if packaged installed
 
 
 # footnotes to appear at bottom of main windw
