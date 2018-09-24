@@ -81,8 +81,10 @@ library(abdcompanion)
 ### Running an interactive tutorial
 
 Finally, run the desired tutorial using the run_tutorial() function from the learnr package.
+
+NOTE: it is called "toad", no "s";
 ```{r eval = FALSE}
-learnr::run_tutorial("toads_spreadsheet_learnr", package = "abdcompanion")
+learnr::run_tutorial("toad_spreadsheet", package = "abdcompanion")
 ```
 
 R will run some code in the console (eg "Listening on http://127.0.0.1:4051"), and your default web browser will open up.  You can then click through the tutorial.
