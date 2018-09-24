@@ -23,21 +23,24 @@ The abdcompanion package contains interactive tutorials for key examples from Wh
 1. Interactive web-based tutorials 
 1. Text-based tutorials
 
-The latter, text-based tutorials are what you will find in most books teaching R or other software.  They provide step by step written instructions that you can work through by typing commands in to R.  To use these tutorials you will have to have a basic familiarity with R, and have to figure out how to trouble shoot anything that comes up.  The rest of the "vignettes" of the package are these conventinal R tutorials.
+The latter, text-based tutorials are what you will find in most books teaching R or other software.  They provide step by step written instructions that you can work through by typing commands into the R console or executing them from an R script.  To use these tutorials you will have to have a basic familiarity with R, and have to figure out how to trouble shoot anything that comes up.  The rest of the "vignettes" of the abdcompanion package are these conventinal R tutorials.
 
 The interactive tutorials are much more dynamic, and require almost no knowledge of R.  After loading the desired tutorial in R, your web browser will open up an interative screen.  All data will be shown in tables and you will be lead through any computations or R code that needs to be written.
 
-These interactive tutorials are further divided into two gorups
+These interactive tutorials are further divided into 2 gorups
 
-* Spreadsheet oriented tutorials
+* Spreadsheet-oriented tutorials
 * R tutorials
 
 ### Interactive "spreadsheet"" tutorials 
-These "spreadsheet"" tutorials are meant to be either read worked thorugh on their own or, ideally, with a spreadsheet such as Excel or Google Sheets open.  R does not have much real spreadsheet capabilities, and but the general output you should be creating is displayed.  An imporant part of these tutorials are prompts to answer questions about the calculations that are being demonstrated (and which you are hopefully doing in a spreadsheet as you go!).   At times there will be small windows where you can input numbers like a scientific calaculator to do simple calculations.  Links are provided to example spreadsheets and worksheets that can be filled out based on the calculations being done.
+
+These "spreadsheet"" tutorials are meant to be either  worked through on their own or, ideally, with a spreadsheet such as Excel or Google Sheets open.  R does not have much real spreadsheet capabilities, and but the general output you should be creating is displayed.  An imporant part of these tutorials are prompts to answer questions about the calculations that are being demonstrated (and which you are hopefully doing in a spreadsheet as you go!).   At times there will be small windows where you can input numbers like a scientific calculator to do simple calculations.  Links are provided to example spreadsheets and worksheets that can be filled out based on the calculations being done.
+
+<br>
 
 ### Interative R Tutorials
 
-The interactive R-tutorials are designed to help you learn the basics of R while providing a lot of help.  LIke the "spreadsheet" exercises, these tutorials don't run in R (or a spreadhseet) but in your webbrowser.  Aspects of an R session or emulated and you can type code into input windows and see the output.  Importantly, you can get hints and helps to figure out the code you need to write.  THere are also questiosn to test you understanding as you go.
+The interactive R-tutorials are designed to help you learn the basics of R while providing a lot of help.  Like the "spreadsheet" exercises, these tutorials don't run in R (or a spreadhseet) but in your web browser.  Aspects of an R session are emulated and you can type code into input windows and see the output.  Importantly, you can get hints and help to figure out the code you need to write.  There are also questiosn to test you understanding as you go.
 
 
 ## Running the interactive tutorials
@@ -52,7 +55,7 @@ To use the interactive tutorials you will need
 
 ### Getting the devtools package 
 
-To get devtools from installed from, you can type 
+To get devtools installed, you can type 
 
 ```{r eval = F}
 install.packages("devtools")
@@ -79,7 +82,7 @@ library(abdcompanion)
 
 Finally, run the desired tutorial using the run_tutorial() function from the learnr package.
 ```{r eval = FALSE}
-learnr::run_tutorial("frogs_spreadsheet", package = "abdcompanion")
+learnr::run_tutorial("toads_spreadsheet_learnr", package = "abdcompanion")
 ```
 
 R will run some code in the console (eg "Listening on http://127.0.0.1:4051"), and your default web browser will open up.  You can then click through the tutorial.
