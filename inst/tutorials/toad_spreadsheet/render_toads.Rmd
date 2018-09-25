@@ -11,12 +11,18 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+## From the script
+
+This renders and opens the tutorial:
 ```{r}
 rmarkdown::run(here::here("inst/tutorials/toad_spreadsheet/toads_spreadsheet_learnr.Rmd"))
 ```
 
 
 
+## From the package
 To install the abdcompanion package, first download it from GitHub using the install_github() function from the devtools package.
 ```{r}
 devtools::install_github("brouwern/abdcompanion")
